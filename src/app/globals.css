@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+  --color-cloud: #f5f5f3;
+  --color-graphite: #53565a;
+  --color-metal: #b1b3b3;
+  --color-mist: #d9d9d6;
+  --color-silver: #97999b;
+  --color-accent-bronze: #956c58;
+  --color-accent-warm: #c6a992;
+  --color-cta-gold: #f3e4a8;
+  --color-deep: #1a1a1a;
+
+  --font-sans: var(--font-noto-sans-jp), "Noto Sans JP", sans-serif;
+  --font-editorial: var(--font-cormorant), "Cormorant Garamond", "Times New Roman", Georgia, serif;
+
+  --tracking-brand: 0.38em;
+  --tracking-label: 0.26em;
+  --tracking-claim: 0.18em;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .brand-track {
+    letter-spacing: var(--tracking-brand);
+    text-transform: uppercase;
+  }
+
+  .label-track {
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .claim-track {
+    letter-spacing: var(--tracking-claim);
+  }
+
+  .press {
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .press:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+
+  .wmf-product-stage {
+    background: var(--color-cloud);
+    border: 1px solid var(--color-mist);
+    border-radius: 2px;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .product-card:hover .wmf-product-stage {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-silver);
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.04);
+  }
+
+  .product-image {
+    transition: transform 0.5s cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .product-cta {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .product-card:hover .product-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .series-pill {
+    border: 1px solid var(--color-mist);
+    background: var(--color-paper);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .series-pill:hover,
+  .series-pill.active {
+    border-color: var(--color-ink);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  .series-pill.active {
+    background: var(--color-cloud);
+  }
+
+  .btn-primary {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    letter-spacing: 0.08em;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    background: #222;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    letter-spacing: 0.08em;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .btn-cta-gold {
+    background: var(--color-cta-gold);
+    color: var(--color-ink);
+    letter-spacing: 0.06em;
+    transition: background 0.2s ease;
+  }
+
+  .btn-cta-gold:hover {
+    background: #ebe0a0;
+  }
+
+  .header-scrolled {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.25) 50%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .drawer-backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+  }
+
+  .drawer-panel {
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .drawer-panel.open {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .product-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
