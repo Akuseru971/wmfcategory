@@ -1,10 +1,12 @@
 "use client";
 
-import { SORT_OPTIONS, type SortType } from "@/data/products";
+import { SERIES, SORT_OPTIONS, type SeriesId, type SortType } from "@/data/products";
 
 interface CatalogBarProps {
   totalCount: number;
   sortType: SortType;
+  activeSeries: SeriesId | "all";
+  onSeriesChange: (series: SeriesId | "all") => void;
   onSortChange: (sort: SortType) => void;
   onFilterOpen: () => void;
 }
@@ -12,6 +14,8 @@ interface CatalogBarProps {
 export default function CatalogBar({
   totalCount,
   sortType,
+  activeSeries,
+  onSeriesChange,
   onSortChange,
   onFilterOpen,
 }: CatalogBarProps) {
@@ -19,7 +23,47 @@ export default function CatalogBar({
 
   return (
     <div className="mx-auto max-w-[1280px] px-4 md:px-8">
-      <div className="flex items-center justify-between border-y border-mist py-4">
+      {/* Desktop: series filter pills */}
+      <div className="hidden border-b border-mist py-4 md:block">
+        <p className="label-track mb-3 text-[10px] font-medium text-metal">シリーズから絞り込む</p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => onSeriesChange("all")}
+            className={`press border px-3 py-1.5 text-[11px] transition-colors ${
+              activeSeries === "all"
+                ? "border-ink bg-ink text-paper"
+                : "border-mist text-graphite hover:border-ink hover:text-ink"
+            }`}
+          >
+            すべて
+          </button>
+          {SERIES.map((series) =>
+            series.id === "accessories" ? (
+              <a
+                key={series.id}
+                href={series.url}
+                className="press border border-mist px-3 py-1.5 text-[11px] text-graphite transition-colors hover:border-ink hover:text-ink"
+              >
+                {series.nameShort}
+              </a>
+            ) : (
+              <button
+                key={series.id}
+                onClick={() => onSeriesChange(series.id)}
+                className={`press border px-3 py-1.5 text-[11px] transition-colors ${
+                  activeSeries === series.id
+                    ? "border-ink bg-ink text-paper"
+                    : "border-mist text-graphite hover:border-ink hover:text-ink"
+                }`}
+              >
+                {series.nameShort}
+              </button>
+            )
+          )}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between border-b border-mist py-4">
         <p className="text-[13px] font-medium text-ink">
           全<span className="mx-0.5">{totalCount}</span>商品
         </p>

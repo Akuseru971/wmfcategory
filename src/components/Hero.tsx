@@ -15,18 +15,12 @@ export default function Hero() {
           <p className="claim-track mt-3 max-w-[400px] text-[13px] leading-relaxed text-graphite md:mt-4 md:text-[14px]">
             切れ味、耐久性、美しさを兼ね備えたWMFのプレミアムナイフ。
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5">
             <a
               href="#products"
               className="btn-primary press inline-flex h-10 items-center px-6 text-[12px] font-medium"
             >
               商品を見る
-            </a>
-            <a
-              href="#product-line"
-              className="btn-secondary press inline-flex h-10 items-center px-6 text-[12px] font-medium"
-            >
-              シリーズで探す
             </a>
           </div>
         </div>

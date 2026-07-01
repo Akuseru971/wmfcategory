@@ -3,17 +3,11 @@
 import { useMemo } from "react";
 import ProductCard from "./ProductCard";
 import CatalogBar from "./CatalogBar";
-import {
-  PRODUCTS,
-  CATEGORY,
-  type KnifeCategoryId,
-  type SeriesId,
-  type SortType,
-} from "@/data/products";
+import { PRODUCTS, CATEGORY, type SeriesId, type SortType } from "@/data/products";
 
 interface ProductGridProps {
-  activeCategory: KnifeCategoryId | "all";
   activeSeries: SeriesId | "all";
+  onSeriesChange: (series: SeriesId | "all") => void;
   sortType: SortType;
   onSortChange: (sort: SortType) => void;
   onFilterOpen: () => void;
@@ -40,32 +34,25 @@ function sortProducts(products: typeof PRODUCTS, sortType: SortType) {
 }
 
 export default function ProductGrid({
-  activeCategory,
   activeSeries,
+  onSeriesChange,
   sortType,
   onSortChange,
   onFilterOpen,
 }: ProductGridProps) {
   const filtered = useMemo(() => {
-    let base = PRODUCTS;
-    if (activeCategory !== "all") {
-      base = base.filter((p) => p.knifeCategory === activeCategory);
-    } else if (activeSeries !== "all") {
-      base = base.filter((p) => p.series === activeSeries);
-    }
+    const base =
+      activeSeries === "all" ? PRODUCTS : PRODUCTS.filter((p) => p.series === activeSeries);
     return sortProducts(base, sortType);
-  }, [activeCategory, activeSeries, sortType]);
+  }, [activeSeries, sortType]);
 
   return (
     <section id="products" aria-label="商品一覧" className="pb-16 md:pb-24">
-      <div className="mx-auto max-w-[1280px] px-4 pt-4 md:px-8">
-        <p className="label-track text-[10px] font-medium text-metal">ALL PRODUCTS</p>
-        <h2 className="mt-1 text-[19px] font-medium text-ink md:text-[22px]">商品一覧</h2>
-      </div>
-
       <CatalogBar
         totalCount={filtered.length}
         sortType={sortType}
+        activeSeries={activeSeries}
+        onSeriesChange={onSeriesChange}
         onSortChange={onSortChange}
         onFilterOpen={onFilterOpen}
       />
