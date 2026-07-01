@@ -1,122 +1,100 @@
 "use client";
 
-import { SERIES, SORT_OPTIONS, type SeriesId, type SortType } from "@/data/products";
+import ActiveFilterChips from "@/components/filters/ActiveFilterChips";
+import SortDropdown from "@/components/filters/SortDropdown";
+import type { ActiveFilterChip } from "@/lib/filters";
+import type { SortType } from "@/data/products";
 
 interface CatalogBarProps {
   totalCount: number;
+  totalCatalog: number;
   sortType: SortType;
-  activeSeries: SeriesId | "all";
-  onSeriesChange: (series: SeriesId | "all") => void;
   onSortChange: (sort: SortType) => void;
   onFilterOpen: () => void;
+  onSortOpen: () => void;
+  activeChips: ActiveFilterChip[];
+  onRemoveChip: (chip: ActiveFilterChip) => void;
+  onClearAll: () => void;
 }
 
 export default function CatalogBar({
   totalCount,
+  totalCatalog,
   sortType,
-  activeSeries,
-  onSeriesChange,
   onSortChange,
   onFilterOpen,
+  onSortOpen,
+  activeChips,
+  onRemoveChip,
+  onClearAll,
 }: CatalogBarProps) {
-  const currentSort = SORT_OPTIONS.find((s) => s.id === sortType);
-
   return (
-    <div className="mx-auto max-w-[1280px] px-4 md:px-8">
-      {/* Desktop: series filter pills */}
-      <div className="hidden border-b border-mist py-4 md:block">
-        <p className="label-track mb-3 text-[10px] font-medium text-metal">シリーズから絞り込む</p>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => onSeriesChange("all")}
-            className={`press border px-3 py-1.5 text-[11px] transition-colors ${
-              activeSeries === "all"
-                ? "border-ink bg-ink text-paper"
-                : "border-mist text-graphite hover:border-ink hover:text-ink"
-            }`}
-          >
-            すべて
-          </button>
-          {SERIES.map((series) =>
-            series.id === "accessories" ? (
-              <a
-                key={series.id}
-                href={series.url}
-                className="press border border-mist px-3 py-1.5 text-[11px] text-graphite transition-colors hover:border-ink hover:text-ink"
-              >
-                {series.nameShort}
-              </a>
-            ) : (
-              <button
-                key={series.id}
-                onClick={() => onSeriesChange(series.id)}
-                className={`press border px-3 py-1.5 text-[11px] transition-colors ${
-                  activeSeries === series.id
-                    ? "border-ink bg-ink text-paper"
-                    : "border-mist text-graphite hover:border-ink hover:text-ink"
-                }`}
-              >
-                {series.nameShort}
-              </button>
-            )
-          )}
+    <div className="sticky top-[3.75rem] z-40 border-b border-mist bg-paper/95 backdrop-blur-sm">
+      <div className="mx-auto max-w-[1280px] px-4 md:px-8">
+        {/* Mobile bar */}
+        <div className="flex items-center justify-between py-3 md:hidden">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={onFilterOpen}
+              className="press flex h-9 items-center gap-1.5 border border-mist px-3 text-[12px] font-medium text-ink"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
+                <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+              Filter
+            </button>
+            <button
+              type="button"
+              onClick={onSortOpen}
+              className="press flex h-9 items-center gap-1.5 border border-mist px-3 text-[12px] font-medium text-ink"
+            >
+              Sort
+            </button>
+          </div>
+          <p className="text-[12px] text-graphite">
+            <span className="font-medium text-ink">{totalCount}</span>件
+          </p>
         </div>
-      </div>
 
-      <div className="flex items-center justify-between border-b border-mist py-4">
-        <p className="text-[13px] font-medium text-ink">
-          全<span className="mx-0.5">{totalCount}</span>商品
-        </p>
-
-        <div className="flex items-center gap-3">
+        {/* Desktop bar */}
+        <div className="hidden items-center gap-4 py-4 md:flex">
           <button
+            type="button"
             onClick={onFilterOpen}
-            className="press flex h-9 items-center gap-1.5 border border-mist px-3 text-[12px] text-graphite md:hidden"
+            className="press flex h-9 shrink-0 items-center gap-2 border border-ink bg-ink px-4 text-[12px] font-medium text-paper"
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M4 6h16M7 12h10M10 18h4"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
+              <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
             </svg>
-            絞り込み
+            Filter
           </button>
 
-          <div className="relative">
-            <label htmlFor="sort-select" className="sr-only">
-              並び順
-            </label>
-            <select
-              id="sort-select"
-              value={sortType}
-              onChange={(e) => onSortChange(e.target.value as SortType)}
-              className="h-9 appearance-none border border-mist bg-paper pl-3 pr-8 text-[12px] text-ink outline-none transition-colors focus:border-ink"
-            >
-              {SORT_OPTIONS.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <svg
-              className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-graphite"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
+          <p className="shrink-0 text-[13px] font-medium text-ink">
+            全<span className="mx-0.5">{totalCount}</span>商品
+            {totalCount !== totalCatalog && (
+              <span className="ml-1 text-[11px] font-normal text-silver">/ {totalCatalog}</span>
+            )}
+          </p>
+
+          <div className="min-w-0 flex-1">
+            <ActiveFilterChips
+              chips={activeChips}
+              onRemove={onRemoveChip}
+              onClearAll={onClearAll}
+            />
           </div>
 
-          {currentSort && (
-            <a
-              href={currentSort.url}
-              className="hidden text-[11px] text-silver underline-offset-2 transition-colors hover:text-ink hover:underline md:inline"
-            >
-              公式サイトで並び替え
-            </a>
-          )}
+          <SortDropdown value={sortType} onChange={onSortChange} />
+        </div>
+
+        {/* Mobile chips */}
+        <div className="md:hidden">
+          <ActiveFilterChips
+            chips={activeChips}
+            onRemove={onRemoveChip}
+            onClearAll={onClearAll}
+          />
         </div>
       </div>
     </div>

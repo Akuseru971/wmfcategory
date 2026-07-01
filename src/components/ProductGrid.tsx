@@ -3,14 +3,22 @@
 import { useMemo } from "react";
 import ProductCard from "./ProductCard";
 import CatalogBar from "./CatalogBar";
-import { PRODUCTS, CATEGORY, type SeriesId, type SortType } from "@/data/products";
+import { PRODUCTS, CATEGORY, type SortType } from "@/data/products";
+import {
+  filterProducts,
+  getActiveFilterChips,
+  removeFilterChip,
+  type ProductFilters,
+  type ActiveFilterChip,
+} from "@/lib/filters";
 
 interface ProductGridProps {
-  activeSeries: SeriesId | "all";
-  onSeriesChange: (series: SeriesId | "all") => void;
+  filters: ProductFilters;
+  onFiltersChange: (filters: ProductFilters) => void;
   sortType: SortType;
   onSortChange: (sort: SortType) => void;
   onFilterOpen: () => void;
+  onSortOpen: () => void;
 }
 
 function sortProducts(products: typeof PRODUCTS, sortType: SortType) {
@@ -34,27 +42,46 @@ function sortProducts(products: typeof PRODUCTS, sortType: SortType) {
 }
 
 export default function ProductGrid({
-  activeSeries,
-  onSeriesChange,
+  filters,
+  onFiltersChange,
   sortType,
   onSortChange,
   onFilterOpen,
+  onSortOpen,
 }: ProductGridProps) {
+  const activeChips = useMemo(() => getActiveFilterChips(filters), [filters]);
+
   const filtered = useMemo(() => {
-    const base =
-      activeSeries === "all" ? PRODUCTS : PRODUCTS.filter((p) => p.series === activeSeries);
+    const base = filterProducts(PRODUCTS, filters);
     return sortProducts(base, sortType);
-  }, [activeSeries, sortType]);
+  }, [filters, sortType]);
+
+  const handleRemoveChip = (chip: ActiveFilterChip) => {
+    onFiltersChange(removeFilterChip(filters, chip));
+  };
+
+  const handleClearAll = () => {
+    onFiltersChange({
+      series: [],
+      knifeTypes: [],
+      priceRanges: [],
+      giftWrapping: false,
+      warranty: false,
+    });
+  };
 
   return (
     <section id="products" aria-label="商品一覧" className="pb-16 md:pb-24">
       <CatalogBar
         totalCount={filtered.length}
+        totalCatalog={CATEGORY.totalProducts}
         sortType={sortType}
-        activeSeries={activeSeries}
-        onSeriesChange={onSeriesChange}
         onSortChange={onSortChange}
         onFilterOpen={onFilterOpen}
+        onSortOpen={onSortOpen}
+        activeChips={activeChips}
+        onRemoveChip={handleRemoveChip}
+        onClearAll={handleClearAll}
       />
 
       <div className="mx-auto mt-8 grid max-w-[1280px] grid-cols-2 gap-x-4 gap-y-8 px-4 md:grid-cols-3 md:gap-x-6 md:gap-y-10 md:px-8 lg:grid-cols-4">
@@ -69,7 +96,7 @@ export default function ProductGrid({
 
       {filtered.length === 0 && (
         <p className="mx-auto mt-12 max-w-[1280px] px-4 text-center text-[14px] text-graphite md:px-8">
-          該当する商品がありません。
+          該当する商品がありません。フィルターを変更してください。
         </p>
       )}
 

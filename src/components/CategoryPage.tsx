@@ -1,19 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Breadcrumb from "@/components/Breadcrumb";
 import ProductGrid from "@/components/ProductGrid";
 import RecommendSection from "@/components/RecommendSection";
 import Footer from "@/components/Footer";
-import FilterDrawer from "@/components/FilterDrawer";
-import type { SeriesId, SortType } from "@/data/products";
+import FilterSidebar from "@/components/filters/FilterSidebar";
+import FilterBottomSheet from "@/components/filters/FilterBottomSheet";
+import SortBottomSheet from "@/components/filters/SortBottomSheet";
+import { EMPTY_FILTERS, filterProducts, type ProductFilters } from "@/lib/filters";
+import { PRODUCTS, type SortType } from "@/data/products";
 
 export default function CategoryPage() {
-  const [activeSeries, setActiveSeries] = useState<SeriesId | "all">("all");
+  const [appliedFilters, setAppliedFilters] = useState<ProductFilters>(EMPTY_FILTERS);
+  const [draftFilters, setDraftFilters] = useState<ProductFilters>(EMPTY_FILTERS);
   const [sortType, setSortType] = useState<SortType>("normal");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
+
+  const previewCount = useMemo(
+    () => filterProducts(PRODUCTS, draftFilters).length,
+    [draftFilters]
+  );
+
+  const openFilters = () => {
+    setDraftFilters(appliedFilters);
+    setFilterOpen(true);
+  };
+
+  const applyFilters = () => {
+    setAppliedFilters(draftFilters);
+    setFilterOpen(false);
+  };
+
+  const closeFilters = () => {
+    setDraftFilters(appliedFilters);
+    setFilterOpen(false);
+  };
 
   return (
     <>
@@ -22,20 +47,38 @@ export default function CategoryPage() {
         <Hero />
         <Breadcrumb />
         <ProductGrid
-          activeSeries={activeSeries}
-          onSeriesChange={setActiveSeries}
+          filters={appliedFilters}
+          onFiltersChange={setAppliedFilters}
           sortType={sortType}
           onSortChange={setSortType}
-          onFilterOpen={() => setFilterOpen(true)}
+          onFilterOpen={openFilters}
+          onSortOpen={() => setSortOpen(true)}
         />
         <RecommendSection />
       </main>
       <Footer />
-      <FilterDrawer
+
+      <FilterSidebar
         open={filterOpen}
-        onClose={() => setFilterOpen(false)}
-        activeSeries={activeSeries}
-        onSeriesChange={setActiveSeries}
+        onClose={closeFilters}
+        draftFilters={draftFilters}
+        onDraftChange={setDraftFilters}
+        onApply={applyFilters}
+        previewCount={previewCount}
+      />
+      <FilterBottomSheet
+        open={filterOpen}
+        onClose={closeFilters}
+        draftFilters={draftFilters}
+        onDraftChange={setDraftFilters}
+        onApply={applyFilters}
+        previewCount={previewCount}
+      />
+      <SortBottomSheet
+        open={sortOpen}
+        onClose={() => setSortOpen(false)}
+        value={sortType}
+        onChange={setSortType}
       />
     </>
   );
