@@ -57,7 +57,12 @@ export default function ProductGrid({
   }, [activeCategory, activeSeries, sortType]);
 
   return (
-    <section id="products" className="pb-16 md:pb-24">
+    <section id="products" aria-label="商品一覧" className="pb-16 md:pb-24">
+      <div className="mx-auto max-w-[1280px] px-4 pt-4 md:px-8">
+        <p className="label-track text-[10px] font-medium text-metal">ALL PRODUCTS</p>
+        <h2 className="mt-1 text-[19px] font-medium text-ink md:text-[22px]">商品一覧</h2>
+      </div>
+
       <CatalogBar
         totalCount={filtered.length}
         sortType={sortType}

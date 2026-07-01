@@ -40,8 +40,12 @@ export default function CategoryPage() {
     <>
       <Header />
       <main>
+        {/* 1. Hero premium */}
         <Hero />
+
         <Breadcrumb />
+
+        {/* 2–4. Category Page / Product Line + tabs + navigation */}
         <ProductLineSection
           activeTab={activeTab}
           onTabChange={setActiveTab}
@@ -50,7 +54,11 @@ export default function CategoryPage() {
           onCategorySelect={handleCategorySelect}
           onSeriesSelect={handleSeriesSelect}
         />
+
+        {/* 5. Section comparaison deux colonnes */}
         <ComparisonSection />
+
+        {/* 6. Grille complète des produits */}
         <ProductGrid
           activeCategory={activeCategory}
           activeSeries={activeSeries}
@@ -58,8 +66,12 @@ export default function CategoryPage() {
           onSortChange={setSortType}
           onFilterOpen={() => setFilterOpen(true)}
         />
+
+        {/* 7. Recommend — toujours après la grille produit */}
         <RecommendSection />
       </main>
+
+      {/* 8. Footer premium */}
       <Footer />
       <FilterDrawer
         open={filterOpen}
