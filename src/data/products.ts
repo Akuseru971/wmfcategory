@@ -1,5 +1,13 @@
 export const SHOP_BASE = "https://shop.wmf.co.jp";
 
+export type KnifeCategoryId =
+  | "santoku"
+  | "chef"
+  | "petty"
+  | "bread"
+  | "scissors"
+  | "accessories";
+
 export type SeriesId =
   | "damascus"
   | "ultimate"
@@ -100,6 +108,89 @@ export const SORT_OPTIONS: SortOption[] = [
   },
 ];
 
+export interface KnifeCategory {
+  id: KnifeCategoryId;
+  name: string;
+  description: string;
+  image: string;
+  externalUrl?: string;
+}
+
+export const KNIFE_CATEGORIES: KnifeCategory[] = [
+  {
+    id: "santoku",
+    name: "三徳包丁",
+    description: "肉・魚・野菜を一本で",
+    image: `${SHOP_BASE}/g_images/3201112330/3201112330_00_ptn.jpg`,
+  },
+  {
+    id: "chef",
+    name: "シェフナイフ",
+    description: "プロ仕様の万能包丁",
+    image: `${SHOP_BASE}/g_images/3201112329/3201112329_00_ptn.jpg`,
+  },
+  {
+    id: "petty",
+    name: "ペティナイフ",
+    description: "細かな作業に最適",
+    image: `${SHOP_BASE}/g_images/3201112334/3201112334_00_ptn.jpg`,
+  },
+  {
+    id: "bread",
+    name: "パン切り包丁",
+    description: "パンを美しくスライス",
+    image: `${SHOP_BASE}/g_images/3201113276/3201113276_00_ptn.jpg`,
+  },
+  {
+    id: "scissors",
+    name: "キッチンばさみ",
+    description: "調理をサポート",
+    image: `${SHOP_BASE}/g_images/3201019486/3201019486_00_ptn.jpg`,
+    externalUrl: `${SHOP_BASE}/shop/goods/list.html?cid=WMF-knives-2`,
+  },
+  {
+    id: "accessories",
+    name: "ナイフ関連商品",
+    description: "メンテナンス・保管",
+    image: `${SHOP_BASE}/g_images/3201113276/3201113276_00_ptn.jpg`,
+    externalUrl: `${SHOP_BASE}/shop/goods/list.html?cid=WMF-knives-2`,
+  },
+];
+
+export interface ComparisonColumn {
+  label: string;
+  title: string;
+  description: string;
+  iconImage: string;
+  productGgcd: string;
+}
+
+export const COMPARISON_COLUMNS: ComparisonColumn[] = [
+  {
+    label: "EVERYDAY",
+    title: "毎日の料理に",
+    description: "使いやすさと価格のバランスに優れた、日常使いのナイフ。",
+    iconImage: `${SHOP_BASE}/g_images/3201019490/3201019490_00_ptn.jpg`,
+    productGgcd: "3201019490",
+  },
+  {
+    label: "PRECISION",
+    title: "本格的な切れ味に",
+    description: "ドイツの技術が生み出す、プロフェッショナルな切れ味と佇まい。",
+    iconImage: `${SHOP_BASE}/g_images/3201002755/3201002755_00_ptn.jpg`,
+    productGgcd: "3201002755",
+  },
+];
+
+export const RECOMMEND_GGCDS = [
+  "3201112330",
+  "3201002755",
+  "3201112329",
+  "3201113273",
+  "3201000240",
+  "3201019490",
+];
+
 export interface Product {
   ggcd: string;
   name: string;
@@ -108,6 +199,7 @@ export interface Product {
   image: string;
   url: string;
   series: SeriesId;
+  knifeCategory: KnifeCategoryId;
   badges: string[];
 }
 
@@ -120,6 +212,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201112334/3201112334_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201112334&cid=WMF-knives-1`,
     series: "ultimate",
+    knifeCategory: "petty",
     badges: ["10年保証", "WMF ギフトラッピング"],
   },
   {
@@ -130,6 +223,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201112330/3201112330_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201112330&cid=WMF-knives-1`,
     series: "ultimate",
+    knifeCategory: "santoku",
     badges: ["10年保証", "WMF ギフトラッピング"],
   },
   {
@@ -140,6 +234,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201112329/3201112329_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201112329&cid=WMF-knives-1`,
     series: "ultimate",
+    knifeCategory: "chef",
     badges: ["10年保証", "WMF ギフトラッピング"],
   },
   {
@@ -150,6 +245,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201113273/3201113273_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201113273&cid=WMF-knives-1`,
     series: "grandwood",
+    knifeCategory: "chef",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -160,6 +256,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201113277/3201113277_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201113277&cid=WMF-knives-1`,
     series: "grandwood",
+    knifeCategory: "santoku",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -170,6 +267,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201113280/3201113280_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201113280&cid=WMF-knives-1`,
     series: "grandwood",
+    knifeCategory: "petty",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -180,6 +278,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201113276/3201113276_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201113276&cid=WMF-knives-1`,
     series: "grandwood",
+    knifeCategory: "bread",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -190,6 +289,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201000248/3201000248_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201000248&cid=WMF-knives-1`,
     series: "spitzenklasse",
+    knifeCategory: "chef",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -200,6 +300,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201000240/3201000240_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201000240&cid=WMF-knives-1`,
     series: "spitzenklasse",
+    knifeCategory: "santoku",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -210,6 +311,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201000252/3201000252_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201000252&cid=WMF-knives-1`,
     series: "spitzenklasse",
+    knifeCategory: "petty",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -220,6 +322,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201002708/3201002708_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201002708&cid=WMF-knives-1`,
     series: "grandgourmet",
+    knifeCategory: "chef",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -230,6 +333,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201002753/3201002753_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201002753&cid=WMF-knives-1`,
     series: "grandgourmet",
+    knifeCategory: "santoku",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -240,6 +344,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201002725/3201002725_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201002725&cid=WMF-knives-1`,
     series: "grandgourmet",
+    knifeCategory: "bread",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -250,6 +355,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201002755/3201002755_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201002755&cid=WMF-knives-1`,
     series: "damascus",
+    knifeCategory: "santoku",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -260,6 +366,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201019486/3201019486_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201019486&cid=WMF-knives-1`,
     series: "kineo",
+    knifeCategory: "chef",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -270,6 +377,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201019490/3201019490_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201019490&cid=WMF-knives-1`,
     series: "kineo",
+    knifeCategory: "santoku",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -280,6 +388,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201019492/3201019492_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201019492&cid=WMF-knives-1`,
     series: "kineo",
+    knifeCategory: "bread",
     badges: ["WMF ギフトラッピング"],
   },
   {
@@ -290,6 +399,7 @@ export const PRODUCTS: Product[] = [
     image: `${SHOP_BASE}/g_images/3201019500/3201019500_00_ptn.jpg`,
     url: `${SHOP_BASE}/shop/goods/index.html?ggcd=3201019500&cid=WMF-knives-1`,
     series: "kineo",
+    knifeCategory: "petty",
     badges: ["WMF ギフトラッピング"],
   },
 ];
@@ -305,3 +415,13 @@ export const CATEGORY = {
   ],
   totalProducts: 18,
 };
+
+export function getRecommendProducts(): Product[] {
+  return RECOMMEND_GGCDS.map((ggcd) => PRODUCTS.find((p) => p.ggcd === ggcd)).filter(
+    (p): p is Product => p !== undefined
+  );
+}
+
+export function getProductByGgcd(ggcd: string): Product | undefined {
+  return PRODUCTS.find((p) => p.ggcd === ggcd);
+}
