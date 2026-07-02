@@ -30,7 +30,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
         aria-expanded={open}
         aria-haspopup="listbox"
       >
-        <span className="hidden text-silver md:inline">並び順:</span>
+        <span className="text-silver">並び順:</span>
         <span className="font-medium">{current?.label}</span>
         <svg
           className={`h-3.5 w-3.5 text-graphite transition-transform ${open ? "rotate-180" : ""}`}

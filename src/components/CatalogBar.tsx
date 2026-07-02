@@ -36,63 +36,51 @@ export default function CatalogBar({
   onRemoveChip,
   onClearAll,
 }: CatalogBarProps) {
-  const countLabel = (
-    <>
-      全<span className="mx-0.5">{totalCount}</span>商品
-      {totalCount !== totalCatalog && (
-        <span className="ml-1 text-[11px] font-normal text-silver">/ {totalCatalog}</span>
-      )}
-    </>
-  );
+  const hasChips = activeChips.length > 0;
 
   return (
     <div className="sticky top-[3.75rem] z-40 border-b border-mist bg-paper/95 backdrop-blur-sm">
       <div className="mx-auto max-w-[1280px] px-4 md:px-8">
-        {/* Mobile bar */}
-        <div className="flex items-center justify-between gap-3 py-2.5 md:hidden">
-          <div className="flex items-center gap-2">
+        {/* Single toolbar — responsive order, no duplicate DOM */}
+        <div className="flex items-center gap-2 py-2.5 md:gap-4 md:py-3">
+          <p className="order-2 ml-auto shrink-0 text-[12px] font-medium text-ink md:order-1 md:ml-0 md:text-[13px]">
+            全<span className="mx-0.5">{totalCount}</span>商品
+            {totalCount !== totalCatalog && (
+              <span className="ml-1 text-[11px] font-normal text-silver">/ {totalCatalog}</span>
+            )}
+          </p>
+
+          {hasChips && (
+            <div className="order-3 hidden min-w-0 flex-1 md:order-2 md:block">
+              <ActiveFilterChips chips={activeChips} onRemove={onRemoveChip} onClearAll={onClearAll} />
+            </div>
+          )}
+
+          <div className="order-1 flex shrink-0 items-center gap-2 md:order-3">
             <button
               type="button"
               onClick={onFilterOpen}
-              className="press flex h-9 items-center gap-1.5 border border-mist px-3 text-[12px] font-medium text-ink"
+              className="press flex h-9 items-center gap-1.5 border border-mist px-3 text-[12px] font-medium text-ink md:gap-2 md:border-ink md:bg-ink md:px-4 md:text-paper"
             >
               <FilterIcon />
               Filter
             </button>
+
             <button
               type="button"
               onClick={onSortOpen}
-              className="press flex h-9 items-center gap-1.5 border border-mist px-3 text-[12px] font-medium text-ink"
+              className="press flex h-9 items-center gap-1.5 border border-mist px-3 text-[12px] font-medium text-ink md:hidden"
             >
               Sort
             </button>
-          </div>
-          <p className="shrink-0 text-[12px] font-medium text-ink">{countLabel}</p>
-        </div>
 
-        {/* Desktop bar */}
-        <div className="hidden items-center gap-4 py-3 md:flex">
-          <p className="shrink-0 text-[13px] font-medium text-ink">{countLabel}</p>
-
-          <div className="min-w-0 flex-1">
-            <ActiveFilterChips chips={activeChips} onRemove={onRemoveChip} onClearAll={onClearAll} />
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2">
-            <button
-              type="button"
-              onClick={onFilterOpen}
-              className="press flex h-9 items-center gap-2 border border-ink bg-ink px-4 text-[12px] font-medium text-paper"
-            >
-              <FilterIcon />
-              Filter
-            </button>
-            <SortDropdown value={sortType} onChange={onSortChange} />
+            <div className="hidden md:block">
+              <SortDropdown value={sortType} onChange={onSortChange} />
+            </div>
           </div>
         </div>
 
-        {/* Mobile active chips */}
-        {activeChips.length > 0 && (
+        {hasChips && (
           <div className="border-t border-mist/60 pb-2 md:hidden">
             <ActiveFilterChips chips={activeChips} onRemove={onRemoveChip} onClearAll={onClearAll} />
           </div>
