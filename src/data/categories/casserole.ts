@@ -1285,7 +1285,7 @@ export const casseroleConfig: CategoryConfig = {
   title: "鍋",
   subtitle: "フュージョンテックの先進コーティングが叶える、美しく軽やかな調理体験。",
   hero: {
-    image: "/images/casserole-hero.jpg?v=20260702",
+    image: "/images/casserole-hero.png?v=20260703",
     label: "WMF FUSIONTEC",
     title: "鍋",
     alt: "WMF FUSIONTEC 鍋",
