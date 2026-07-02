@@ -33,7 +33,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const hasPrice = product.price > 0;
 
   return (
-    <article className="product-card group">
+    <article className="product-card product-grid-cell group">
       <a href={product.url} className="product-card-link block">
         <div className="wmf-product-stage relative aspect-square w-full overflow-hidden">
           <Image

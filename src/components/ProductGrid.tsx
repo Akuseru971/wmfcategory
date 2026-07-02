@@ -94,7 +94,7 @@ export default function ProductGrid({
         onClearAll={handleClearAll}
       />
 
-      <div className="mx-auto mt-8 grid max-w-[1280px] grid-cols-2 gap-x-4 gap-y-8 px-4 md:grid-cols-3 md:gap-x-6 md:gap-y-10 md:px-8 lg:grid-cols-4">
+      <div className="product-grid mx-auto mt-8 max-w-[1280px] px-4 md:px-8">
         {filtered.map((product, i) => (
           <ProductCard
             key={product.ggcd}
