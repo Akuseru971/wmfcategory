@@ -53,7 +53,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           <span className="text-[10px] text-silver">（税込）</span>
         </div>
 
-        <span className="product-cta btn-cta-gold press mt-3 flex h-10 w-full items-center justify-center text-[12px] font-medium">
+        <span className="product-cta btn-cta-black press mt-3 flex h-10 w-full items-center justify-center text-[12px] font-medium">
           商品を見る
         </span>
       </a>

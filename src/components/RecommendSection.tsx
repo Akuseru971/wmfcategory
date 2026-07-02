@@ -66,7 +66,7 @@ function RecommendCard({
       <p className="mt-1.5 text-[14px] font-semibold text-paper">
         ¥{product.price.toLocaleString("ja-JP")}
       </p>
-      <span className="btn-cta-gold press mt-3 flex h-9 w-full items-center justify-center text-[11px] font-medium">
+      <span className="btn-cta-black press mt-3 flex h-9 w-full items-center justify-center text-[11px] font-medium">
         商品を見る
       </span>
     </a>

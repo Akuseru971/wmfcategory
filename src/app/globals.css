@@ -62,15 +62,15 @@
   }
 
   .wmf-product-stage {
-    background: var(--color-cloud);
-    border: 1px solid var(--color-mist);
-    border-radius: 2px;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    background: var(--color-paper);
+    border: none;
+    border-radius: 0;
+    transition: opacity 0.3s ease;
   }
 
   .product-card:hover .wmf-product-stage {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-    border-color: var(--color-silver);
+    box-shadow: none;
+    border-color: transparent;
   }
 
   .product-card:hover .product-image {
@@ -211,6 +211,26 @@
 
   .btn-cta-gold:hover {
     background: #ebe0a0;
+  }
+
+  .btn-cta-black {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    letter-spacing: 0.06em;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+
+  .btn-cta-black:hover {
+    background: #1f1f1f;
+  }
+
+  .category-hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.08) 0%,
+      rgba(0, 0, 0, 0.35) 55%,
+      rgba(0, 0, 0, 0.72) 100%
+    );
   }
 
   .header-scrolled {
