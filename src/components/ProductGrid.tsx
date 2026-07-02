@@ -94,14 +94,16 @@ export default function ProductGrid({
         onClearAll={handleClearAll}
       />
 
-      <div className="product-grid mx-auto mt-8 max-w-[1280px] px-4 md:px-8">
-        {filtered.map((product, i) => (
-          <ProductCard
-            key={product.ggcd}
-            product={product}
-            index={sortType === "salableness" ? i : undefined}
-          />
-        ))}
+      <div className="product-grid-shell mt-8">
+        <div className="product-grid">
+          {filtered.map((product, i) => (
+            <ProductCard
+              key={product.ggcd}
+              product={product}
+              index={sortType === "salableness" ? i : undefined}
+            />
+          ))}
+        </div>
       </div>
 
       {filtered.length === 0 && (
