@@ -224,6 +224,26 @@
     background: #1f1f1f;
   }
 
+  .category-switch__btn {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .category-switch__btn:hover {
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .category-switch__btn--active {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-ink);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  }
+
+  .category-switch__btn--active:hover {
+    background: rgba(255, 255, 255, 1);
+    color: var(--color-ink);
+  }
+
   .category-hero-overlay {
     background: linear-gradient(
       105deg,

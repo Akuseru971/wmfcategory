@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import CategorySwitch from "@/components/CategorySwitch";
 import Breadcrumb from "@/components/Breadcrumb";
 import SeriesFilterSection from "@/components/SeriesFilterSection";
 import ProductGrid from "@/components/ProductGrid";
@@ -49,7 +50,10 @@ export default function CategoryPage({ config }: CategoryPageProps) {
     <>
       <Header />
       <main>
-        <Hero hero={config.hero} />
+        <div className="relative mt-[3.75rem]">
+          <CategorySwitch activeId={config.id} />
+          <Hero hero={config.hero} />
+        </div>
         <Breadcrumb items={config.breadcrumb} />
         <SeriesFilterSection
           config={config}

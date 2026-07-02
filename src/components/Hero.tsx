@@ -7,7 +7,7 @@ interface HeroProps {
 
 export default function Hero({ hero }: HeroProps) {
   return (
-    <section className="relative mt-[3.75rem] bg-ink" aria-label="カテゴリーヒーロー">
+    <section className="relative bg-ink" aria-label="カテゴリーヒーロー">
       <div className="relative h-[240px] w-full sm:h-[280px] md:h-[380px] lg:h-[420px]">
         <Image
           src={hero.image}
