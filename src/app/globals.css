@@ -207,6 +207,28 @@
     transition: width 0.2s ease, background 0.2s ease;
   }
 
+  .hero-overlay {
+    background: linear-gradient(#00000014 0%, #00000059 55%, #000000d1 100%);
+  }
+
+  .wmf-overlay-hero {
+    background: linear-gradient(#00000014 0%, #00000059 55%, #000000d1 100%);
+  }
+
+  .copy-body {
+    line-height: 1.25;
+    text-align: left;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .recommend-carousel {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;

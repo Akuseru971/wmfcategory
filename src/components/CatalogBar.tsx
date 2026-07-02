@@ -29,7 +29,7 @@ export default function CatalogBar({
   onClearAll,
 }: CatalogBarProps) {
   return (
-    <div className="sticky top-[3.75rem] z-40 border-b border-mist bg-paper/95 backdrop-blur-sm">
+    <div id="catalog" className="sticky top-[3.75rem] z-40 border-b border-mist bg-paper/95 backdrop-blur-sm">
       <div className="mx-auto max-w-[1280px] px-4 md:px-8">
         {/* Mobile bar */}
         <div className="flex items-center justify-between py-3 md:hidden">
