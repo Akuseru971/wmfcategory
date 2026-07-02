@@ -104,8 +104,9 @@
   }
 
   .series-filter-card {
+    position: relative;
     border: 1px solid var(--color-mist);
-    border-radius: 10px;
+    border-radius: 8px;
     background: var(--color-paper);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
     transition:
@@ -117,20 +118,27 @@
 
   .series-filter-card:hover {
     border-color: rgba(0, 0, 0, 0.22);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
-    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
   }
 
   .series-filter-card.is-active {
     border-color: var(--color-ink);
     background: var(--color-cloud);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  }
+
+  .series-filter-card.is-active .series-filter-card__arrow {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-paper);
   }
 
   .series-filter-card__badge {
     background: var(--color-ink);
     color: var(--color-paper);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
   }
 
   .series-filter-carousel {

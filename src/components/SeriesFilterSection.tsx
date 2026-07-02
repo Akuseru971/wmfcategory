@@ -15,7 +15,7 @@ const VISUAL_SERIES = SERIES;
 
 function IconArrow() {
   return (
-    <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <svg className="h-3 w-3 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <path
         d="M3 8h10M9 4l4 4-4 4"
         stroke="currentColor"
@@ -46,48 +46,49 @@ function SeriesFilterCard({
   href?: string;
   onClick?: () => void;
 }) {
-  const className = `series-filter-card press group/card flex h-full w-full flex-col overflow-hidden text-left ${
+  const className = `series-filter-card press group/card flex h-[72px] w-full flex-row items-stretch overflow-hidden text-left md:h-[80px] ${
     active ? "is-active" : ""
   }`;
 
   const content = (
     <>
-      <div className="series-filter-card__media relative aspect-[5/4] w-full overflow-hidden bg-cloud">
+      <div className="series-filter-card__media relative w-[60px] shrink-0 bg-cloud md:w-[68px]">
         {image ? (
           <Image
             src={image}
             alt={alt}
             fill
-            className="series-filter-card__image object-contain p-5 transition-transform duration-500 ease-out group-hover/card:scale-[1.04]"
-            sizes="(max-width: 768px) 42vw, 320px"
+            className="series-filter-card__image object-contain p-1.5 transition-transform duration-500 ease-out group-hover/card:scale-[1.05] md:p-2"
+            sizes="68px"
             loading="lazy"
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-2 px-4">
-            <span className="font-[family-name:var(--font-editorial)] text-[28px] font-medium leading-none text-ink/80">
+          <div className="flex h-full flex-col items-center justify-center gap-0.5 px-1">
+            <span className="font-[family-name:var(--font-editorial)] text-[15px] font-medium leading-none text-ink/80 md:text-[16px]">
               All
             </span>
-            <span className="text-[11px] tracking-wide text-graphite">すべて</span>
+            <span className="text-[9px] tracking-wide text-graphite">すべて</span>
           </div>
-        )}
-        {active && (
-          <span className="series-filter-card__badge absolute left-3 top-3 px-2 py-0.5 text-[9px] font-medium tracking-wide">
-            選択中
-          </span>
         )}
       </div>
 
-      <div className="series-filter-card__body flex flex-1 items-center justify-between gap-3 px-4 py-3.5">
+      <div className="flex min-w-0 flex-1 items-center justify-between gap-2 px-3 md:px-3.5">
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[13px] font-medium leading-snug text-ink md:text-[14px]">{label}</p>
+          <p className="truncate text-[12px] font-medium leading-snug text-ink md:text-[13px]">{label}</p>
           {count !== undefined && (
-            <p className="mt-0.5 text-[11px] text-silver">{count}商品</p>
+            <p className="mt-0.5 text-[10px] text-silver md:text-[11px]">{count}商品</p>
           )}
         </div>
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-mist text-graphite transition-all duration-300 group-hover/card:border-ink group-hover/card:text-ink group-[.is-active]/card:border-ink group-[.is-active]/card:bg-ink group-[.is-active]/card:text-paper">
+        <span className="series-filter-card__arrow flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-mist text-graphite transition-all duration-300 group-hover/card:border-ink group-hover/card:text-ink">
           <IconArrow />
         </span>
       </div>
+
+      {active && (
+        <span className="series-filter-card__badge absolute right-2 top-2 px-1.5 py-px text-[8px] font-medium tracking-wide">
+          選択中
+        </span>
+      )}
     </>
   );
 
@@ -137,11 +138,11 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
       aria-label="シリーズフィルター"
       className="border-b border-mist bg-paper"
     >
-      <div className="mx-auto max-w-[1280px] px-4 py-10 md:px-8 md:py-14">
-        <div className="reveal flex flex-wrap items-end justify-between gap-4">
+      <div className="mx-auto max-w-[1280px] px-4 py-7 md:px-8 md:py-9">
+        <div className="reveal flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="label-track text-[10px] font-medium text-metal">フィルター</p>
-            <h2 className="mt-2 font-[family-name:var(--font-editorial)] text-[28px] font-medium leading-tight text-ink md:text-[36px]">
+            <h2 className="mt-1.5 font-[family-name:var(--font-editorial)] text-[24px] font-medium leading-tight text-ink md:text-[30px]">
               シリーズから探す
             </h2>
           </div>
@@ -150,17 +151,17 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
             <button
               type="button"
               onClick={handleClearSeries}
-              className="press border border-mist px-4 py-2 text-[11px] font-medium tracking-wide text-graphite transition-colors hover:border-ink hover:text-ink"
+              className="press border border-mist px-3 py-1.5 text-[11px] font-medium tracking-wide text-graphite transition-colors hover:border-ink hover:text-ink"
             >
               クリア
             </button>
           )}
         </div>
 
-        {/* Mobile — horizontal premium carousel */}
-        <div className="reveal mt-7 md:hidden">
-          <div className="series-filter-carousel -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 scrollbar-hide">
-            <div className="w-[42vw] min-w-[148px] max-w-[180px] shrink-0 snap-start">
+        {/* Mobile — horizontal compact carousel */}
+        <div className="reveal mt-5 md:hidden">
+          <div className="series-filter-carousel -mx-4 flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-1 scrollbar-hide">
+            <div className="w-[68vw] min-w-[210px] max-w-[260px] shrink-0 snap-start">
               <SeriesFilterCard
                 label="すべて"
                 alt="すべてのシリーズ"
@@ -176,7 +177,7 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
               return (
                 <div
                   key={series.id}
-                  className="w-[42vw] min-w-[148px] max-w-[180px] shrink-0 snap-start"
+                  className="w-[68vw] min-w-[210px] max-w-[260px] shrink-0 snap-start"
                 >
                   <SeriesFilterCard
                     label={series.id === "accessories" ? series.name : series.nameShort}
@@ -194,8 +195,8 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
           </div>
         </div>
 
-        {/* Desktop — 3-column premium grid */}
-        <div className="reveal mt-8 hidden gap-5 md:grid md:grid-cols-3">
+        {/* Desktop — 3-column compact grid */}
+        <div className="reveal mt-5 hidden gap-3 md:grid md:grid-cols-3">
           <SeriesFilterCard
             label="すべて"
             alt="すべてのシリーズ"
