@@ -250,7 +250,8 @@
     transition: width 0.2s ease, background 0.2s ease;
   }
 
-  .recommend-carousel {
+  .recommend-carousel,
+  .recommend-rail {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }

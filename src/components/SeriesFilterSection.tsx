@@ -26,6 +26,31 @@ function IconArrow() {
   );
 }
 
+function IconCheck() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M3.5 8.5l3 3 6-6"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconAllSeries() {
+  return (
+    <svg className="h-4 w-4 text-graphite" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="4" y="4" width="6.5" height="6.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="13.5" y="4" width="6.5" height="6.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="4" y="13.5" width="6.5" height="6.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  );
+}
+
 function SeriesFilterCard({
   label,
   image,
@@ -35,6 +60,7 @@ function SeriesFilterCard({
   external,
   href,
   onClick,
+  allCard = false,
 }: {
   label: string;
   image?: string;
@@ -44,6 +70,7 @@ function SeriesFilterCard({
   external?: boolean;
   href?: string;
   onClick?: () => void;
+  allCard?: boolean;
 }) {
   const className = `series-filter-card press group/card relative flex h-[58px] w-full flex-row items-stretch overflow-hidden text-left md:h-[64px] ${
     active ? "is-active" : ""
@@ -51,8 +78,20 @@ function SeriesFilterCard({
 
   const content = (
     <>
-      <div className="series-filter-card__media relative w-[52px] shrink-0 bg-cloud md:w-[56px]">
-        {image ? (
+      <div
+        className={`series-filter-card__media relative flex w-[52px] shrink-0 items-center justify-center md:w-[56px] ${
+          allCard ? "bg-cloud" : "bg-cloud"
+        }`}
+      >
+        {allCard ? (
+          active ? (
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-paper">
+              <IconCheck />
+            </span>
+          ) : (
+            <IconAllSeries />
+          )
+        ) : image ? (
           <Image
             src={image}
             alt={alt}
@@ -61,11 +100,7 @@ function SeriesFilterCard({
             sizes="56px"
             loading="lazy"
           />
-        ) : (
-          <div className="flex h-full items-center justify-center px-1">
-            <span className="text-[11px] font-medium tracking-wide text-graphite">すべて</span>
-          </div>
-        )}
+        ) : null}
       </div>
 
       <div className="flex min-w-0 flex-1 items-center justify-between gap-1.5 px-2.5 md:gap-2 md:px-3">
@@ -74,13 +109,18 @@ function SeriesFilterCard({
           {count !== undefined && (
             <p className="mt-0.5 text-[9px] text-silver md:text-[10px]">{count}件</p>
           )}
+          {allCard && active && (
+            <p className="mt-0.5 text-[9px] font-medium text-ink md:text-[10px]">選択中</p>
+          )}
         </div>
-        <span className="series-filter-card__arrow hidden h-5 w-5 shrink-0 items-center justify-center rounded-full border border-mist text-graphite transition-all duration-300 group-hover/card:border-ink group-hover/card:text-ink sm:flex">
-          <IconArrow />
-        </span>
+        {!allCard && (
+          <span className="series-filter-card__arrow hidden h-5 w-5 shrink-0 items-center justify-center rounded-full border border-mist text-graphite transition-all duration-300 group-hover/card:border-ink group-hover/card:text-ink sm:flex">
+            <IconArrow />
+          </span>
+        )}
       </div>
 
-      {active && (
+      {!allCard && active && (
         <span className="series-filter-card__badge absolute right-1.5 top-1.5 px-1 py-px text-[7px] font-medium tracking-wide md:text-[8px]">
           選択中
         </span>
@@ -148,10 +188,10 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
           )}
         </div>
 
-        {/* Single filter rail — carousel on mobile, 4-col grid on desktop */}
         <div className="series-filter-rail -mx-4 mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-0.5 scrollbar-hide md:mx-0 md:mt-3.5 md:grid md:grid-cols-4 md:gap-2 md:overflow-visible md:px-0 md:snap-none">
           <div className="w-[52vw] min-w-[156px] max-w-[190px] shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none">
             <SeriesFilterCard
+              allCard
               label="すべて"
               alt="すべてのシリーズ"
               active={!hasSeriesFilter}

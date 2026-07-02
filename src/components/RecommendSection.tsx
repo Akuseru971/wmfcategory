@@ -4,9 +4,11 @@ import Image from "next/image";
 import { getRecommendProducts } from "@/data/products";
 import { useReveal } from "@/hooks/useReveal";
 
+const MAX_RECOMMEND = 6;
+
 export default function RecommendSection() {
   const ref = useReveal<HTMLElement>();
-  const products = getRecommendProducts();
+  const products = getRecommendProducts().slice(0, MAX_RECOMMEND);
 
   return (
     <section
@@ -21,24 +23,12 @@ export default function RecommendSection() {
           Recommend
         </h2>
 
-        {/* Mobile: horizontal swipe carousel */}
-        <div className="reveal mt-8 md:hidden">
-          <div className="recommend-carousel -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide">
-            {products.map((product, i) => (
-              <article
-                key={product.ggcd}
-                className="w-[72vw] max-w-[240px] shrink-0 snap-center"
-              >
-                <RecommendCard product={product} rank={i + 1} />
-              </article>
-            ))}
-          </div>
-        </div>
-
-        {/* Desktop: premium grid */}
-        <div className="reveal mt-8 hidden md:grid md:grid-cols-3 md:gap-5 lg:grid-cols-4">
+        <div className="reveal recommend-rail -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:snap-none lg:grid-cols-6">
           {products.map((product, i) => (
-            <article key={product.ggcd}>
+            <article
+              key={product.ggcd}
+              className="w-[72vw] max-w-[240px] shrink-0 snap-center md:w-auto md:max-w-none"
+            >
               <RecommendCard product={product} rank={i + 1} />
             </article>
           ))}
@@ -63,7 +53,7 @@ function RecommendCard({
           alt={product.name}
           fill
           className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 768px) 72vw, 25vw"
+          sizes="(max-width: 768px) 72vw, 16vw"
           loading="lazy"
         />
         <span className="absolute left-2 top-2 flex h-7 w-7 items-center justify-center bg-paper text-[12px] font-semibold text-ink">
