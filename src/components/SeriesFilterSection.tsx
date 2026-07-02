@@ -10,6 +10,7 @@ interface SeriesFilterSectionProps {
   onFiltersChange: (filters: ProductFilters) => void;
 }
 
+/** All 7 series — never filtered or sliced */
 const VISUAL_SERIES = SERIES;
 
 function IconArrow() {
@@ -74,11 +75,7 @@ function SeriesFilterCard({
 
   const content = (
     <>
-      <div
-        className={`series-filter-card__media relative flex w-[52px] shrink-0 items-center justify-center md:w-[56px] ${
-          allCard ? "bg-cloud" : "bg-cloud"
-        }`}
-      >
+      <div className="series-filter-card__media relative flex w-[52px] shrink-0 items-center justify-center bg-cloud md:w-[56px]">
         {allCard ? (
           active ? (
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-paper">
@@ -176,34 +173,29 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
           )}
         </div>
 
-        <div className="series-filter-rail -mx-4 mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-0.5 scrollbar-hide md:mx-0 md:mt-3.5 md:grid md:grid-cols-4 md:gap-2 md:overflow-visible md:px-0 md:snap-none">
-          <div className="w-[52vw] min-w-[156px] max-w-[190px] shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none">
-            <SeriesFilterCard
-              allCard
-              label="すべて"
-              alt="すべてのシリーズ"
-              active={!hasSeriesFilter}
-              onClick={handleClearSeries}
-            />
-          </div>
+        {/* Grid: 2 cols mobile, 3 cols desktop — all 8 cards always visible */}
+        <div className="series-filter-rail mt-3 grid grid-cols-2 gap-2 md:mt-3.5 md:grid-cols-3">
+          <SeriesFilterCard
+            allCard
+            label="すべて"
+            alt="すべてのシリーズ"
+            active={!hasSeriesFilter}
+            onClick={handleClearSeries}
+          />
 
           {VISUAL_SERIES.map((series) => {
             const count = countsBySeries.get(series.id) ?? 0;
 
             return (
-              <div
+              <SeriesFilterCard
                 key={series.id}
-                className="w-[52vw] min-w-[156px] max-w-[190px] shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none"
-              >
-                <SeriesFilterCard
-                  label={series.name}
-                  image={series.image}
-                  alt={series.name}
-                  active={filters.series.includes(series.id)}
-                  count={count > 0 ? count : undefined}
-                  onClick={() => handleToggle(series.id)}
-                />
-              </div>
+                label={series.name}
+                image={series.image}
+                alt={series.name}
+                active={filters.series.includes(series.id)}
+                count={count > 0 ? count : undefined}
+                onClick={() => handleToggle(series.id)}
+              />
             );
           })}
         </div>
