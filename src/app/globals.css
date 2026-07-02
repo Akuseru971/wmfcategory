@@ -106,26 +106,26 @@
   .series-filter-card {
     position: relative;
     border: 1px solid var(--color-mist);
-    border-radius: 8px;
+    border-radius: 6px;
     background: var(--color-paper);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025);
     transition:
-      border-color 0.25s ease,
-      box-shadow 0.3s ease,
-      transform 0.3s ease,
-      background 0.25s ease;
+      border-color 0.2s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s ease,
+      background 0.2s ease;
   }
 
   .series-filter-card:hover {
-    border-color: rgba(0, 0, 0, 0.22);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    transform: translateY(-2px);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
   }
 
   .series-filter-card.is-active {
     border-color: var(--color-ink);
     background: var(--color-cloud);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
 
   .series-filter-card.is-active .series-filter-card__arrow {
@@ -137,11 +137,11 @@
   .series-filter-card__badge {
     background: var(--color-ink);
     color: var(--color-paper);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     line-height: 1.2;
   }
 
-  .series-filter-carousel {
+  .series-filter-rail {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }
