@@ -57,8 +57,6 @@ function SeriesFilterCard({
   alt,
   active,
   count,
-  external,
-  href,
   onClick,
   allCard = false,
 }: {
@@ -67,8 +65,6 @@ function SeriesFilterCard({
   alt: string;
   active?: boolean;
   count?: number;
-  external?: boolean;
-  href?: string;
   onClick?: () => void;
   allCard?: boolean;
 }) {
@@ -127,14 +123,6 @@ function SeriesFilterCard({
       )}
     </>
   );
-
-  if (external && href) {
-    return (
-      <a href={href} className={className} aria-label={label}>
-        {content}
-      </a>
-    );
-  }
 
   return (
     <button type="button" onClick={onClick} className={className} aria-pressed={active} aria-label={label}>
@@ -201,7 +189,6 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
 
           {VISUAL_SERIES.map((series) => {
             const count = countsBySeries.get(series.id) ?? 0;
-            const isExternal = series.id === "accessories" && count === 0;
 
             return (
               <div
@@ -214,9 +201,7 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
                   alt={series.name}
                   active={filters.series.includes(series.id)}
                   count={count > 0 ? count : undefined}
-                  external={isExternal}
-                  href={isExternal ? series.url : undefined}
-                  onClick={isExternal ? undefined : () => handleToggle(series.id)}
+                  onClick={() => handleToggle(series.id)}
                 />
               </div>
             );

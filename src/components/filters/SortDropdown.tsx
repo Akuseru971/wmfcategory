@@ -26,7 +26,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="press flex h-9 items-center gap-2 border border-mist bg-paper px-3 text-[12px] text-ink transition-colors hover:border-silver"
+        className="catalog-btn press flex h-9 items-center gap-1.5 px-3.5 text-[12px] text-ink"
         aria-expanded={open}
         aria-haspopup="listbox"
       >

@@ -103,6 +103,22 @@
     transform: translateY(0);
   }
 
+  .catalog-btn {
+    border: 1px solid var(--color-mist);
+    border-radius: 6px;
+    background: var(--color-paper);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .catalog-btn:hover {
+    border-color: var(--color-silver);
+    background: var(--color-cloud);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
   .series-filter-card {
     position: relative;
     border: 1px solid var(--color-mist);
