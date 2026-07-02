@@ -103,6 +103,41 @@
     transform: translateY(0);
   }
 
+  .series-filter-card {
+    border: 1px solid var(--color-mist);
+    border-radius: 10px;
+    background: var(--color-paper);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease,
+      background 0.25s ease;
+  }
+
+  .series-filter-card:hover {
+    border-color: rgba(0, 0, 0, 0.22);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+    transform: translateY(-3px);
+  }
+
+  .series-filter-card.is-active {
+    border-color: var(--color-ink);
+    background: var(--color-cloud);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .series-filter-card__badge {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    letter-spacing: 0.08em;
+  }
+
+  .series-filter-carousel {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
   .series-pill {
     border: 1px solid var(--color-mist);
     background: var(--color-paper);

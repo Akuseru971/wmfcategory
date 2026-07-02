@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Breadcrumb from "@/components/Breadcrumb";
+import SeriesFilterSection from "@/components/SeriesFilterSection";
 import ProductGrid from "@/components/ProductGrid";
 import RecommendSection from "@/components/RecommendSection";
 import Footer from "@/components/Footer";
@@ -46,6 +47,7 @@ export default function CategoryPage() {
       <main>
         <Hero />
         <Breadcrumb />
+        <SeriesFilterSection filters={appliedFilters} onFiltersChange={setAppliedFilters} />
         <ProductGrid
           filters={appliedFilters}
           onFiltersChange={setAppliedFilters}
