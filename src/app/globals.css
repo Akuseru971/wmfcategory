@@ -62,7 +62,7 @@
   }
 
   .product-grid {
-    --product-grid-line: rgba(0, 0, 0, 0.07);
+    --product-grid-line: rgba(0, 0, 0, 0.16);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0;
