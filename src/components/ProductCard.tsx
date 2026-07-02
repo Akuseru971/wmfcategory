@@ -6,7 +6,32 @@ interface ProductCardProps {
   index?: number;
 }
 
+const BADGE_PRIORITY = ["10年保証", "WMF ギフトラッピング", "無水調理", "IH/ガス対応"];
+
+function formatBadgeLabel(badge: string): string {
+  if (badge === "WMF ギフトラッピング") return "ギフトラッピング";
+  return badge;
+}
+
+function sortBadges(badges: string[]): string[] {
+  return [...badges].sort((a, b) => {
+    const ai = BADGE_PRIORITY.indexOf(a);
+    const bi = BADGE_PRIORITY.indexOf(b);
+    const aRank = ai === -1 ? BADGE_PRIORITY.length : ai;
+    const bRank = bi === -1 ? BADGE_PRIORITY.length : bi;
+    return aRank - bRank;
+  });
+}
+
+function formatPrice(price: number): string {
+  if (!price || price <= 0) return "価格未定";
+  return `¥${price.toLocaleString("ja-JP")}`;
+}
+
 export default function ProductCard({ product, index }: ProductCardProps) {
+  const displayBadges = sortBadges(product.badges);
+  const hasPrice = product.price > 0;
+
   return (
     <article className="product-card group">
       <a href={product.url} className="block">
@@ -24,33 +49,35 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               {index + 1}
             </span>
           )}
-          {product.badges.length > 0 && (
-            <div className="absolute right-2 top-2 flex flex-col gap-1">
-              {product.badges.map((badge) => (
-                <span
-                  key={badge}
-                  className={`px-2 py-0.5 text-[9px] font-medium tracking-wide ${
-                    badge === "10年保証"
-                      ? "bg-ink text-paper"
-                      : "bg-paper/95 text-ink border border-mist"
-                  }`}
-                >
-                  {badge === "WMF ギフトラッピング" ? "ギフトラッピング" : badge}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
 
-        <h3 className="mt-3 line-clamp-2 min-h-[2.6em] text-[12.5px] leading-snug text-ink md:text-[13px]">
+        {displayBadges.length > 0 && (
+          <div className="product-badge-row mt-2.5">
+            {displayBadges.map((badge) => (
+              <span key={badge} className="product-badge-pill">
+                {formatBadgeLabel(badge)}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <h3
+          className={`line-clamp-2 min-h-[2.6em] text-[12.5px] leading-snug text-ink md:text-[13px] ${
+            displayBadges.length > 0 ? "mt-2" : "mt-3"
+          }`}
+        >
           {product.name}
         </h3>
 
         <div className="mt-1.5 flex items-baseline gap-2">
-          <span className="text-[14px] font-semibold text-ink md:text-[15px]">
-            ¥{product.price.toLocaleString("ja-JP")}
+          <span
+            className={`text-[14px] font-semibold md:text-[15px] ${
+              hasPrice ? "text-ink" : "text-graphite"
+            }`}
+          >
+            {formatPrice(product.price)}
           </span>
-          <span className="text-[10px] text-silver">（税込）</span>
+          {hasPrice && <span className="text-[10px] text-silver">（税込）</span>}
         </div>
 
         <span className="product-cta btn-cta-black press mt-3 flex h-10 w-full items-center justify-center text-[12px] font-medium">

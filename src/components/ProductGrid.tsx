@@ -72,6 +72,7 @@ export default function ProductGrid({
     onFiltersChange({
       series: [],
       subCategories: [],
+      productTypes: [],
       priceRanges: [],
       giftWrapping: false,
       warranty: false,
@@ -116,10 +117,6 @@ export default function ProductGrid({
           </span>
         </nav>
       </div>
-
-      <p className="mx-auto mt-4 max-w-[1280px] px-4 text-center text-[11px] text-silver md:px-8">
-        全{config.totalProducts}商品 · ページ 1
-      </p>
     </section>
   );
 }

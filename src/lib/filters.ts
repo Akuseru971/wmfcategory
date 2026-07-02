@@ -5,6 +5,7 @@ export type PriceRangeId = "under15" | "15to30" | "30to50" | "over50";
 export interface ProductFilters {
   series: string[];
   subCategories: string[];
+  productTypes: string[];
   priceRanges: PriceRangeId[];
   giftWrapping: boolean;
   warranty: boolean;
@@ -13,6 +14,7 @@ export interface ProductFilters {
 export const EMPTY_FILTERS: ProductFilters = {
   series: [],
   subCategories: [],
+  productTypes: [],
   priceRanges: [],
   giftWrapping: false,
   warranty: false,
@@ -53,6 +55,12 @@ export function filterProducts(
       return false;
     }
     if (
+      filters.productTypes.length > 0 &&
+      (!product.productType || !filters.productTypes.includes(product.productType))
+    ) {
+      return false;
+    }
+    if (
       filters.priceRanges.length > 0 &&
       !filters.priceRanges.some((r) => matchesPriceRange(product.price, r))
     ) {
@@ -71,7 +79,7 @@ export function filterProducts(
 export interface ActiveFilterChip {
   id: string;
   label: string;
-  group: "series" | "subCategories" | "priceRanges" | "giftWrapping" | "warranty";
+  group: "series" | "subCategories" | "productTypes" | "priceRanges" | "giftWrapping" | "warranty";
   value: string;
 }
 
@@ -89,6 +97,11 @@ export function getActiveFilterChips(
   filters.subCategories.forEach((id) => {
     const t = config.subCategories.find((x) => x.id === id);
     if (t) chips.push({ id: `type-${id}`, label: t.name, group: "subCategories", value: id });
+  });
+
+  filters.productTypes.forEach((id) => {
+    const t = config.productTypes?.find((x) => x.id === id);
+    if (t) chips.push({ id: `ptype-${id}`, label: t.label, group: "productTypes", value: id });
   });
 
   filters.priceRanges.forEach((id) => {
@@ -115,6 +128,9 @@ export function removeFilterChip(filters: ProductFilters, chip: ActiveFilterChip
     case "subCategories":
       next.subCategories = next.subCategories.filter((v) => v !== chip.value);
       break;
+    case "productTypes":
+      next.productTypes = next.productTypes.filter((v) => v !== chip.value);
+      break;
     case "priceRanges":
       next.priceRanges = next.priceRanges.filter((v) => v !== chip.value);
       break;
@@ -132,6 +148,7 @@ export function hasActiveFilters(filters: ProductFilters): boolean {
   return (
     filters.series.length > 0 ||
     filters.subCategories.length > 0 ||
+    filters.productTypes.length > 0 ||
     filters.priceRanges.length > 0 ||
     filters.giftWrapping ||
     filters.warranty

@@ -96,16 +96,10 @@ export default function CatalogBar({
         </div>
 
         {/* Desktop toolbar */}
-        <div className="hidden items-center gap-4 py-3 md:flex">
+        <div className="hidden items-center justify-between gap-4 py-3 md:flex">
           <ProductCount totalCount={totalCount} totalCatalog={totalCatalog} />
 
-          {hasChips && (
-            <div className="min-w-0 flex-1">
-              <ActiveFilterChips chips={activeChips} onRemove={onRemoveChip} onClearAll={onClearAll} />
-            </div>
-          )}
-
-          <div className={`flex shrink-0 items-center gap-2.5 ${hasChips ? "" : "ml-auto"}`}>
+          <div className="flex shrink-0 items-center gap-2.5">
             <CatalogButton onClick={onFilterOpen} ariaLabel="フィルター">
               <FilterIcon />
               <span>Filter</span>
@@ -114,9 +108,9 @@ export default function CatalogBar({
           </div>
         </div>
 
-        {/* Mobile active chips */}
+        {/* Active filter chips — separate row */}
         {hasChips && (
-          <div className="border-t border-mist/60 pb-2 md:hidden">
+          <div className="border-t border-mist/60 pb-2.5 pt-2">
             <ActiveFilterChips chips={activeChips} onRemove={onRemoveChip} onClearAll={onClearAll} />
           </div>
         )}

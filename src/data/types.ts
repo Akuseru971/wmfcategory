@@ -24,6 +24,11 @@ export interface CategorySubCategory {
   externalUrl?: string;
 }
 
+export interface CategoryProductType {
+  id: string;
+  label: string;
+}
+
 export interface CategoryProduct {
   ggcd: string;
   name: string;
@@ -33,6 +38,7 @@ export interface CategoryProduct {
   url: string;
   series: string;
   subCategory: string;
+  productType?: string;
   badges: string[];
 }
 
@@ -64,6 +70,7 @@ export interface CategoryConfig {
   filterableSeriesIds: string[];
   filterableSubCategoryIds: string[];
   subCategoryFilterLabel: string;
+  productTypes?: CategoryProductType[];
 }
 
 export function getRecommendProducts(config: CategoryConfig): CategoryProduct[] {

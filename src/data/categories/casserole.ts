@@ -1,5 +1,9 @@
 import type { CategoryConfig } from "../types";
 import { SHOP_BASE } from "../types";
+import {
+  CASSEROLE_PRODUCT_TYPES,
+  inferCasseroleProductType,
+} from "@/lib/casserole-product-type";
 
 export type CasseroleSeriesId =
   | "fusiontec-mineral-pro"
@@ -892,8 +896,8 @@ const PRODUCTS = [
   {
     ggcd: "3201010373",
     name: "コンパクト クイジーン スチーマー 16cm",
-    price: 0,
-    priceLabel: "",
+    price: 4400,
+    priceLabel: "4,400円（税込）",
     image: "https://shop.wmf.co.jp/g_images/3201010373/3201010373_00_ptn.jpg",
     url: "https://shop.wmf.co.jp/shop/goods/index.html?ggcd=3201010373&cid=WMF-casserole",
     series: "compact-cuisine",
@@ -903,8 +907,8 @@ const PRODUCTS = [
   {
     ggcd: "3201010369",
     name: "コンパクト クイジーン クッキングボウル 20cm",
-    price: 0,
-    priceLabel: "",
+    price: 5060,
+    priceLabel: "5,060円（税込）",
     image: "https://shop.wmf.co.jp/g_images/3201010369/3201010369_00_ptn.jpg",
     url: "https://shop.wmf.co.jp/shop/goods/index.html?ggcd=3201010369&cid=WMF-casserole",
     series: "compact-cuisine",
@@ -914,8 +918,8 @@ const PRODUCTS = [
   {
     ggcd: "3201010367",
     name: "コンパクト クイジーン クッキングボウル 16cm",
-    price: 0,
-    priceLabel: "",
+    price: 4400,
+    priceLabel: "4,400円（税込）",
     image: "https://shop.wmf.co.jp/g_images/3201010367/3201010367_00_ptn.jpg",
     url: "https://shop.wmf.co.jp/shop/goods/index.html?ggcd=3201010367&cid=WMF-casserole",
     series: "compact-cuisine",
@@ -925,8 +929,8 @@ const PRODUCTS = [
   {
     ggcd: "9100041506",
     name: "コンパクト クイジーン 16cm 2Pセット",
-    price: 0,
-    priceLabel: "",
+    price: 34320,
+    priceLabel: "34,320円（税込）",
     image: "https://shop.wmf.co.jp/g_images/9100041506/9100041506_00_ptn.jpg",
     url: "https://shop.wmf.co.jp/shop/goods/index.html?ggcd=9100041506&cid=WMF-casserole",
     series: "compact-cuisine",
@@ -936,8 +940,8 @@ const PRODUCTS = [
   {
     ggcd: "3201111529",
     name: "フュージョンテック ミネラル マルチポット 14cm RQ",
-    price: 0,
-    priceLabel: "",
+    price: 24750,
+    priceLabel: "24,750円（税込）",
     image: "https://shop.wmf.co.jp/g_images/3201111529/3201111529_00_ptn.jpg",
     url: "https://shop.wmf.co.jp/shop/goods/index.html?ggcd=3201111529&cid=WMF-casserole",
     series: "fusiontec-mineral",
@@ -947,8 +951,8 @@ const PRODUCTS = [
   {
     ggcd: "3201111528",
     name: "フュージョンテック ミネラル マルチポット 14cm PL",
-    price: 0,
-    priceLabel: "",
+    price: 24750,
+    priceLabel: "24,750円（税込）",
     image: "https://shop.wmf.co.jp/g_images/3201111528/3201111528_00_ptn.jpg",
     url: "https://shop.wmf.co.jp/shop/goods/index.html?ggcd=3201111528&cid=WMF-casserole",
     series: "fusiontec-mineral",
@@ -958,8 +962,8 @@ const PRODUCTS = [
   {
     ggcd: "3201111527",
     name: "フュージョンテック ミネラル マルチポット 14cm DR",
-    price: 0,
-    priceLabel: "",
+    price: 24750,
+    priceLabel: "24,750円（税込）",
     image: "https://shop.wmf.co.jp/g_images/3201111527/3201111527_00_ptn.jpg",
     url: "https://shop.wmf.co.jp/shop/goods/index.html?ggcd=3201111527&cid=WMF-casserole",
     series: "fusiontec-mineral",
@@ -1294,7 +1298,10 @@ export const casseroleConfig: CategoryConfig = {
   totalProducts: 108,
   series: SERIES,
   subCategories: SUB_CATEGORIES,
-  products: PRODUCTS,
+  products: PRODUCTS.map((product) => ({
+    ...product,
+    productType: inferCasseroleProductType(product.name, product.subCategory),
+  })),
   sortOptions: [
     { id: "normal", label: "おすすめ順", url: `${SHOP_BASE}/shop/goods/list.html?cid=WMF-casserole` },
     { id: "new", label: "新着順", url: `${SHOP_BASE}/shop/goods/list.html?stype=new&pnum=1&asc=false&cid=WMF-casserole&sid=&vtype=thumbs` },
@@ -1322,4 +1329,5 @@ export const casseroleConfig: CategoryConfig = {
   ],
   filterableSubCategoryIds: ["two-hand", "one-hand", "accessories"],
   subCategoryFilterLabel: "鍋の種類",
+  productTypes: CASSEROLE_PRODUCT_TYPES,
 };

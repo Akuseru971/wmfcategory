@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import CategorySwitch from "@/components/CategorySwitch";
 import Breadcrumb from "@/components/Breadcrumb";
 import SeriesFilterSection from "@/components/SeriesFilterSection";
+import ProductTypeFilterSection from "@/components/ProductTypeFilterSection";
 import ProductGrid from "@/components/ProductGrid";
 import RecommendSection from "@/components/RecommendSection";
 import Footer from "@/components/Footer";
@@ -60,6 +61,13 @@ export default function CategoryPage({ config }: CategoryPageProps) {
           filters={appliedFilters}
           onFiltersChange={setAppliedFilters}
         />
+        {config.productTypes && config.productTypes.length > 0 && (
+          <ProductTypeFilterSection
+            config={config}
+            filters={appliedFilters}
+            onFiltersChange={setAppliedFilters}
+          />
+        )}
         <ProductGrid
           config={config}
           filters={appliedFilters}
