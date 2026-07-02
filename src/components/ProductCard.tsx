@@ -34,7 +34,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
   return (
     <article className="product-card group">
-      <a href={product.url} className="block">
+      <a href={product.url} className="product-card-link block">
         <div className="wmf-product-stage relative aspect-square w-full overflow-hidden">
           <Image
             src={product.image}
@@ -61,13 +61,18 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           </div>
         )}
 
-        <h3
-          className={`line-clamp-2 min-h-[2.6em] text-[12.5px] leading-snug text-ink md:text-[13px] ${
+        <div
+          className={`flex items-start justify-between gap-2 ${
             displayBadges.length > 0 ? "mt-2" : "mt-3"
           }`}
         >
-          {product.name}
-        </h3>
+          <h3 className="product-card-title line-clamp-2 min-h-[2.6em] flex-1 text-[12.5px] leading-snug text-ink md:text-[13px]">
+            {product.name}
+          </h3>
+          <span className="product-card-arrow" aria-hidden="true">
+            →
+          </span>
+        </div>
 
         <div className="mt-1.5 flex items-baseline gap-2">
           <span
@@ -79,10 +84,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           </span>
           {hasPrice && <span className="text-[10px] text-silver">（税込）</span>}
         </div>
-
-        <span className="product-cta btn-cta-black press mt-3 flex h-10 w-full items-center justify-center text-[12px] font-medium">
-          商品を見る
-        </span>
       </a>
     </article>
   );
