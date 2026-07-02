@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const CATEGORY_HERO_IMAGE = "/images/category-hero.png";
+const CATEGORY_HERO_IMAGE = "/images/category-hero.png?v=20260702";
 
 export default function Hero() {
   return (
