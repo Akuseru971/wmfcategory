@@ -1,5 +1,6 @@
 import CategoryPage from "@/components/CategoryPage";
+import { knivesConfig } from "@/data/categories/knives";
 
 export default function Home() {
-  return <CategoryPage />;
+  return <CategoryPage config={knivesConfig} />;
 }

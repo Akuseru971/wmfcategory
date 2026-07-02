@@ -1,16 +1,23 @@
 "use client";
 
 import { useEffect } from "react";
-import { SORT_OPTIONS, type SortType } from "@/data/products";
+import type { SortOption, SortType } from "@/data/types";
 
 interface SortBottomSheetProps {
   open: boolean;
   onClose: () => void;
   value: SortType;
+  options: SortOption[];
   onChange: (sort: SortType) => void;
 }
 
-export default function SortBottomSheet({ open, onClose, value, onChange }: SortBottomSheetProps) {
+export default function SortBottomSheet({
+  open,
+  onClose,
+  value,
+  options,
+  onChange,
+}: SortBottomSheetProps) {
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -28,7 +35,7 @@ export default function SortBottomSheet({ open, onClose, value, onChange }: Sort
           <h2 className="text-[15px] font-medium text-ink">並び順</h2>
         </div>
         <ul className="py-2">
-          {SORT_OPTIONS.map((option) => (
+          {options.map((option) => (
             <li key={option.id}>
               <button
                 type="button"

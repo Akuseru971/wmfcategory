@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import ProductCard from "./ProductCard";
 import CatalogBar from "./CatalogBar";
-import { PRODUCTS, CATEGORY, type SortType } from "@/data/products";
+import type { CategoryConfig, CategoryProduct, SortType } from "@/data/types";
 import {
   filterProducts,
   getActiveFilterChips,
@@ -13,6 +13,7 @@ import {
 } from "@/lib/filters";
 
 interface ProductGridProps {
+  config: CategoryConfig;
   filters: ProductFilters;
   onFiltersChange: (filters: ProductFilters) => void;
   sortType: SortType;
@@ -21,7 +22,11 @@ interface ProductGridProps {
   onSortOpen: () => void;
 }
 
-function sortProducts(products: typeof PRODUCTS, sortType: SortType) {
+function sortProducts(
+  products: CategoryProduct[],
+  sortType: SortType,
+  sortSeriesOrder: string[]
+) {
   const sorted = [...products];
   switch (sortType) {
     case "price":
@@ -30,9 +35,8 @@ function sortProducts(products: typeof PRODUCTS, sortType: SortType) {
       return sorted.reverse();
     case "salableness":
       return sorted.sort((a, b) => {
-        const order = ["ultimate", "damascus", "grandwood", "grandgourmet", "spitzenklasse", "kineo"];
-        const ai = order.indexOf(a.series);
-        const bi = order.indexOf(b.series);
+        const ai = sortSeriesOrder.indexOf(a.series);
+        const bi = sortSeriesOrder.indexOf(b.series);
         if (ai !== bi) return ai - bi;
         return b.price - a.price;
       });
@@ -42,6 +46,7 @@ function sortProducts(products: typeof PRODUCTS, sortType: SortType) {
 }
 
 export default function ProductGrid({
+  config,
   filters,
   onFiltersChange,
   sortType,
@@ -49,12 +54,15 @@ export default function ProductGrid({
   onFilterOpen,
   onSortOpen,
 }: ProductGridProps) {
-  const activeChips = useMemo(() => getActiveFilterChips(filters), [filters]);
+  const activeChips = useMemo(
+    () => getActiveFilterChips(filters, config),
+    [filters, config]
+  );
 
   const filtered = useMemo(() => {
-    const base = filterProducts(PRODUCTS, filters);
-    return sortProducts(base, sortType);
-  }, [filters, sortType]);
+    const base = filterProducts(config.products, filters);
+    return sortProducts(base, sortType, config.sortSeriesOrder);
+  }, [config, filters, sortType]);
 
   const handleRemoveChip = (chip: ActiveFilterChip) => {
     onFiltersChange(removeFilterChip(filters, chip));
@@ -63,7 +71,7 @@ export default function ProductGrid({
   const handleClearAll = () => {
     onFiltersChange({
       series: [],
-      knifeTypes: [],
+      subCategories: [],
       priceRanges: [],
       giftWrapping: false,
       warranty: false,
@@ -74,8 +82,9 @@ export default function ProductGrid({
     <section id="products" aria-label="商品一覧" className="pb-16 md:pb-24">
       <CatalogBar
         totalCount={filtered.length}
-        totalCatalog={CATEGORY.totalProducts}
+        totalCatalog={config.totalProducts}
         sortType={sortType}
+        sortOptions={config.sortOptions}
         onSortChange={onSortChange}
         onFilterOpen={onFilterOpen}
         onSortOpen={onSortOpen}
@@ -109,7 +118,7 @@ export default function ProductGrid({
       </div>
 
       <p className="mx-auto mt-4 max-w-[1280px] px-4 text-center text-[11px] text-silver md:px-8">
-        全{CATEGORY.totalProducts}商品 · ページ 1
+        全{config.totalProducts}商品 · ページ 1
       </p>
     </section>
   );

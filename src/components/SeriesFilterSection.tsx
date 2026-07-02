@@ -2,16 +2,14 @@
 
 import Image from "next/image";
 import { useMemo } from "react";
-import { SERIES, PRODUCTS, type SeriesId } from "@/data/products";
+import type { CategoryConfig } from "@/data/types";
 import { toggleArrayItem, type ProductFilters } from "@/lib/filters";
 
 interface SeriesFilterSectionProps {
+  config: CategoryConfig;
   filters: ProductFilters;
   onFiltersChange: (filters: ProductFilters) => void;
 }
-
-/** All 7 series — never filtered or sliced */
-const VISUAL_SERIES = SERIES;
 
 function IconArrow() {
   return (
@@ -128,18 +126,24 @@ function SeriesFilterCard({
   );
 }
 
-export default function SeriesFilterSection({ filters, onFiltersChange }: SeriesFilterSectionProps) {
+export default function SeriesFilterSection({
+  config,
+  filters,
+  onFiltersChange,
+}: SeriesFilterSectionProps) {
+  const visualSeries = config.series;
+
   const countsBySeries = useMemo(() => {
-    const counts = new Map<SeriesId, number>();
-    PRODUCTS.forEach((product) => {
+    const counts = new Map<string, number>();
+    config.products.forEach((product) => {
       counts.set(product.series, (counts.get(product.series) ?? 0) + 1);
     });
     return counts;
-  }, []);
+  }, [config.products]);
 
   const hasSeriesFilter = filters.series.length > 0;
 
-  const handleToggle = (seriesId: SeriesId) => {
+  const handleToggle = (seriesId: string) => {
     onFiltersChange({
       ...filters,
       series: toggleArrayItem(filters.series, seriesId),
@@ -173,7 +177,6 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
           )}
         </div>
 
-        {/* Grid: 2 cols mobile, 3 cols desktop — all 8 cards always visible */}
         <div className="series-filter-rail mt-3 grid grid-cols-2 gap-2 md:mt-3.5 md:grid-cols-3">
           <SeriesFilterCard
             allCard
@@ -183,7 +186,7 @@ export default function SeriesFilterSection({ filters, onFiltersChange }: Series
             onClick={handleClearSeries}
           />
 
-          {VISUAL_SERIES.map((series) => {
+          {visualSeries.map((series) => {
             const count = countsBySeries.get(series.id) ?? 0;
 
             return (

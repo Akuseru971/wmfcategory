@@ -3,8 +3,10 @@
 import { useEffect } from "react";
 import FilterPanel from "./FilterPanel";
 import { EMPTY_FILTERS, type ProductFilters } from "@/lib/filters";
+import type { CategoryConfig } from "@/data/types";
 
 interface FilterBottomSheetProps {
+  config: CategoryConfig;
   open: boolean;
   onClose: () => void;
   draftFilters: ProductFilters;
@@ -14,6 +16,7 @@ interface FilterBottomSheetProps {
 }
 
 export default function FilterBottomSheet({
+  config,
   open,
   onClose,
   draftFilters,
@@ -58,7 +61,12 @@ export default function FilterBottomSheet({
         </div>
 
         <div className="min-h-0 flex-1 overflow-hidden">
-          <FilterPanel filters={draftFilters} onChange={onDraftChange} previewCount={previewCount} />
+          <FilterPanel
+            config={config}
+            filters={draftFilters}
+            onChange={onDraftChange}
+            previewCount={previewCount}
+          />
         </div>
 
         <div className="border-t border-mist bg-paper p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">

@@ -12,9 +12,13 @@ import FilterSidebar from "@/components/filters/FilterSidebar";
 import FilterBottomSheet from "@/components/filters/FilterBottomSheet";
 import SortBottomSheet from "@/components/filters/SortBottomSheet";
 import { EMPTY_FILTERS, filterProducts, type ProductFilters } from "@/lib/filters";
-import { PRODUCTS, type SortType } from "@/data/products";
+import type { CategoryConfig, SortType } from "@/data/types";
 
-export default function CategoryPage() {
+interface CategoryPageProps {
+  config: CategoryConfig;
+}
+
+export default function CategoryPage({ config }: CategoryPageProps) {
   const [appliedFilters, setAppliedFilters] = useState<ProductFilters>(EMPTY_FILTERS);
   const [draftFilters, setDraftFilters] = useState<ProductFilters>(EMPTY_FILTERS);
   const [sortType, setSortType] = useState<SortType>("normal");
@@ -22,8 +26,8 @@ export default function CategoryPage() {
   const [sortOpen, setSortOpen] = useState(false);
 
   const previewCount = useMemo(
-    () => filterProducts(PRODUCTS, draftFilters).length,
-    [draftFilters]
+    () => filterProducts(config.products, draftFilters).length,
+    [config.products, draftFilters]
   );
 
   const openFilters = () => {
@@ -45,10 +49,15 @@ export default function CategoryPage() {
     <>
       <Header />
       <main>
-        <Hero />
-        <Breadcrumb />
-        <SeriesFilterSection filters={appliedFilters} onFiltersChange={setAppliedFilters} />
+        <Hero hero={config.hero} />
+        <Breadcrumb items={config.breadcrumb} />
+        <SeriesFilterSection
+          config={config}
+          filters={appliedFilters}
+          onFiltersChange={setAppliedFilters}
+        />
         <ProductGrid
+          config={config}
           filters={appliedFilters}
           onFiltersChange={setAppliedFilters}
           sortType={sortType}
@@ -56,11 +65,12 @@ export default function CategoryPage() {
           onFilterOpen={openFilters}
           onSortOpen={() => setSortOpen(true)}
         />
-        <RecommendSection />
+        <RecommendSection config={config} />
       </main>
       <Footer />
 
       <FilterSidebar
+        config={config}
         open={filterOpen}
         onClose={closeFilters}
         draftFilters={draftFilters}
@@ -69,6 +79,7 @@ export default function CategoryPage() {
         previewCount={previewCount}
       />
       <FilterBottomSheet
+        config={config}
         open={filterOpen}
         onClose={closeFilters}
         draftFilters={draftFilters}
@@ -80,6 +91,7 @@ export default function CategoryPage() {
         open={sortOpen}
         onClose={() => setSortOpen(false)}
         value={sortType}
+        options={config.sortOptions}
         onChange={setSortType}
       />
     </>

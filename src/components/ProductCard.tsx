@@ -1,8 +1,8 @@
 import Image from "next/image";
-import type { Product } from "@/data/products";
+import type { CategoryProduct } from "@/data/types";
 
 interface ProductCardProps {
-  product: Product;
+  product: CategoryProduct;
   index?: number;
 }
 

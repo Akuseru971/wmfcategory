@@ -3,12 +3,13 @@
 import ActiveFilterChips from "@/components/filters/ActiveFilterChips";
 import SortDropdown from "@/components/filters/SortDropdown";
 import type { ActiveFilterChip } from "@/lib/filters";
-import type { SortType } from "@/data/products";
+import type { SortOption, SortType } from "@/data/types";
 
 interface CatalogBarProps {
   totalCount: number;
   totalCatalog: number;
   sortType: SortType;
+  sortOptions: SortOption[];
   onSortChange: (sort: SortType) => void;
   onFilterOpen: () => void;
   onSortOpen: () => void;
@@ -67,6 +68,7 @@ export default function CatalogBar({
   totalCount,
   totalCatalog,
   sortType,
+  sortOptions,
   onSortChange,
   onFilterOpen,
   onSortOpen,
@@ -108,7 +110,7 @@ export default function CatalogBar({
               <FilterIcon />
               <span>Filter</span>
             </CatalogButton>
-            <SortDropdown value={sortType} onChange={onSortChange} />
+            <SortDropdown value={sortType} options={sortOptions} onChange={onSortChange} />
           </div>
         </div>
 

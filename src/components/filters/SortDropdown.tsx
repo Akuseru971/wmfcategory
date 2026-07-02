@@ -1,17 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SORT_OPTIONS, type SortType } from "@/data/products";
+import type { SortOption, SortType } from "@/data/types";
 
 interface SortDropdownProps {
   value: SortType;
+  options: SortOption[];
   onChange: (sort: SortType) => void;
 }
 
-export default function SortDropdown({ value, onChange }: SortDropdownProps) {
+export default function SortDropdown({ value, options, onChange }: SortDropdownProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const current = SORT_OPTIONS.find((o) => o.id === value);
+  const current = options.find((o) => o.id === value);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -46,7 +47,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
           role="listbox"
           className="sort-dropdown absolute right-0 top-[calc(100%+4px)] z-50 min-w-[160px] border border-mist bg-paper py-1 shadow-lg"
         >
-          {SORT_OPTIONS.map((option) => (
+          {options.map((option) => (
             <li key={option.id}>
               <button
                 type="button"

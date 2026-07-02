@@ -1,14 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { getRecommendProducts } from "@/data/products";
+import type { CategoryConfig, CategoryProduct } from "@/data/types";
+import { getRecommendProducts } from "@/data/types";
 import { useReveal } from "@/hooks/useReveal";
 
 const MAX_RECOMMEND = 6;
 
-export default function RecommendSection() {
+interface RecommendSectionProps {
+  config: CategoryConfig;
+}
+
+export default function RecommendSection({ config }: RecommendSectionProps) {
   const ref = useReveal<HTMLElement>();
-  const products = getRecommendProducts().slice(0, MAX_RECOMMEND);
+  const products = getRecommendProducts(config).slice(0, MAX_RECOMMEND);
 
   return (
     <section
@@ -38,13 +43,7 @@ export default function RecommendSection() {
   );
 }
 
-function RecommendCard({
-  product,
-  rank,
-}: {
-  product: ReturnType<typeof getRecommendProducts>[number];
-  rank: number;
-}) {
+function RecommendCard({ product, rank }: { product: CategoryProduct; rank: number }) {
   return (
     <a href={product.url} className="group block">
       <div className="relative aspect-square overflow-hidden rounded-lg border border-paper/10 bg-paper/5 transition-colors group-hover:border-paper/25">

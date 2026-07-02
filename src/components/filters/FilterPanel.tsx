@@ -1,17 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import type { CategoryConfig } from "@/data/types";
 import {
-  FILTERABLE_KNIFE_TYPES,
-  FILTERABLE_SERIES,
+  getFilterableSeries,
+  getFilterableSubCategories,
   PRICE_RANGES,
   type ProductFilters,
   toggleArrayItem,
+  type PriceRangeId,
 } from "@/lib/filters";
-import type { KnifeCategoryId, SeriesId } from "@/data/products";
-import type { PriceRangeId } from "@/lib/filters";
 
 interface FilterPanelProps {
+  config: CategoryConfig;
   filters: ProductFilters;
   onChange: (filters: ProductFilters) => void;
   previewCount: number;
@@ -115,8 +116,10 @@ function CheckboxRow({
   );
 }
 
-export default function FilterPanel({ filters, onChange, previewCount }: FilterPanelProps) {
+export default function FilterPanel({ config, filters, onChange, previewCount }: FilterPanelProps) {
   const set = (patch: Partial<ProductFilters>) => onChange({ ...filters, ...patch });
+  const filterableSeries = getFilterableSeries(config);
+  const filterableSubCategories = getFilterableSubCategories(config);
 
   return (
     <div className="flex h-full flex-col">
@@ -129,14 +132,14 @@ export default function FilterPanel({ filters, onChange, previewCount }: FilterP
         <div className="mt-4">
           <AccordionSection title="シリーズ" subtitle="Series">
             <div className="flex flex-wrap gap-2">
-              {FILTERABLE_SERIES.map((series) => (
+              {filterableSeries.map((series) => (
                 <FilterPill
                   key={series.id}
                   label={series.nameShort}
                   active={filters.series.includes(series.id)}
                   onClick={() =>
                     set({
-                      series: toggleArrayItem(filters.series, series.id as SeriesId),
+                      series: toggleArrayItem(filters.series, series.id),
                     })
                   }
                 />
@@ -144,16 +147,16 @@ export default function FilterPanel({ filters, onChange, previewCount }: FilterP
             </div>
           </AccordionSection>
 
-          <AccordionSection title="商品タイプ" subtitle="Product type">
+          <AccordionSection title={config.subCategoryFilterLabel} subtitle="Product type">
             <div className="flex flex-wrap gap-2">
-              {FILTERABLE_KNIFE_TYPES.map((type) => (
+              {filterableSubCategories.map((type) => (
                 <FilterPill
                   key={type.id}
                   label={type.name}
-                  active={filters.knifeTypes.includes(type.id)}
+                  active={filters.subCategories.includes(type.id)}
                   onClick={() =>
                     set({
-                      knifeTypes: toggleArrayItem(filters.knifeTypes, type.id as KnifeCategoryId),
+                      subCategories: toggleArrayItem(filters.subCategories, type.id),
                     })
                   }
                 />

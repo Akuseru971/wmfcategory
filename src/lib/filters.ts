@@ -1,11 +1,10 @@
-import type { KnifeCategoryId, Product, SeriesId } from "@/data/products";
-import { KNIFE_CATEGORIES, SERIES } from "@/data/products";
+import type { CategoryConfig, CategoryProduct } from "@/data/types";
 
 export type PriceRangeId = "under15" | "15to30" | "30to50" | "over50";
 
 export interface ProductFilters {
-  series: SeriesId[];
-  knifeTypes: KnifeCategoryId[];
+  series: string[];
+  subCategories: string[];
   priceRanges: PriceRangeId[];
   giftWrapping: boolean;
   warranty: boolean;
@@ -13,7 +12,7 @@ export interface ProductFilters {
 
 export const EMPTY_FILTERS: ProductFilters = {
   series: [],
-  knifeTypes: [],
+  subCategories: [],
   priceRanges: [],
   giftWrapping: false,
   warranty: false,
@@ -26,13 +25,15 @@ export const PRICE_RANGES: { id: PriceRangeId; label: string; min: number; max: 
   { id: "over50", label: "¥50,000〜", min: 50000, max: Infinity },
 ];
 
-/** Product types present in the 18 knives (excludes scissors/accessories links) */
-export const FILTERABLE_KNIFE_TYPES = KNIFE_CATEGORIES.filter(
-  (c) => !c.externalUrl && ["santoku", "chef", "petty", "bread"].includes(c.id)
-);
+export function getFilterableSeries(config: CategoryConfig) {
+  return config.series.filter((s) => config.filterableSeriesIds.includes(s.id));
+}
 
-/** Series filterable in-catalog (excludes external accessories category) */
-export const FILTERABLE_SERIES = SERIES.filter((s) => s.id !== "accessories");
+export function getFilterableSubCategories(config: CategoryConfig) {
+  return config.subCategories.filter(
+    (c) => config.filterableSubCategoryIds.includes(c.id) && !c.externalUrl
+  );
+}
 
 export function matchesPriceRange(price: number, rangeId: PriceRangeId): boolean {
   const range = PRICE_RANGES.find((r) => r.id === rangeId);
@@ -40,12 +41,15 @@ export function matchesPriceRange(price: number, rangeId: PriceRangeId): boolean
   return price >= range.min && price < range.max;
 }
 
-export function filterProducts(products: Product[], filters: ProductFilters): Product[] {
+export function filterProducts(
+  products: CategoryProduct[],
+  filters: ProductFilters
+): CategoryProduct[] {
   return products.filter((product) => {
     if (filters.series.length > 0 && !filters.series.includes(product.series)) {
       return false;
     }
-    if (filters.knifeTypes.length > 0 && !filters.knifeTypes.includes(product.knifeCategory)) {
+    if (filters.subCategories.length > 0 && !filters.subCategories.includes(product.subCategory)) {
       return false;
     }
     if (
@@ -67,21 +71,24 @@ export function filterProducts(products: Product[], filters: ProductFilters): Pr
 export interface ActiveFilterChip {
   id: string;
   label: string;
-  group: "series" | "knifeTypes" | "priceRanges" | "giftWrapping" | "warranty";
+  group: "series" | "subCategories" | "priceRanges" | "giftWrapping" | "warranty";
   value: string;
 }
 
-export function getActiveFilterChips(filters: ProductFilters): ActiveFilterChip[] {
+export function getActiveFilterChips(
+  filters: ProductFilters,
+  config: CategoryConfig
+): ActiveFilterChip[] {
   const chips: ActiveFilterChip[] = [];
 
   filters.series.forEach((id) => {
-    const s = SERIES.find((x) => x.id === id);
+    const s = config.series.find((x) => x.id === id);
     if (s) chips.push({ id: `series-${id}`, label: s.nameShort, group: "series", value: id });
   });
 
-  filters.knifeTypes.forEach((id) => {
-    const t = KNIFE_CATEGORIES.find((x) => x.id === id);
-    if (t) chips.push({ id: `type-${id}`, label: t.name, group: "knifeTypes", value: id });
+  filters.subCategories.forEach((id) => {
+    const t = config.subCategories.find((x) => x.id === id);
+    if (t) chips.push({ id: `type-${id}`, label: t.name, group: "subCategories", value: id });
   });
 
   filters.priceRanges.forEach((id) => {
@@ -105,8 +112,8 @@ export function removeFilterChip(filters: ProductFilters, chip: ActiveFilterChip
     case "series":
       next.series = next.series.filter((v) => v !== chip.value);
       break;
-    case "knifeTypes":
-      next.knifeTypes = next.knifeTypes.filter((v) => v !== chip.value);
+    case "subCategories":
+      next.subCategories = next.subCategories.filter((v) => v !== chip.value);
       break;
     case "priceRanges":
       next.priceRanges = next.priceRanges.filter((v) => v !== chip.value);
@@ -122,7 +129,13 @@ export function removeFilterChip(filters: ProductFilters, chip: ActiveFilterChip
 }
 
 export function hasActiveFilters(filters: ProductFilters): boolean {
-  return getActiveFilterChips(filters).length > 0;
+  return (
+    filters.series.length > 0 ||
+    filters.subCategories.length > 0 ||
+    filters.priceRanges.length > 0 ||
+    filters.giftWrapping ||
+    filters.warranty
+  );
 }
 
 export function toggleArrayItem<T>(arr: T[], item: T): T[] {

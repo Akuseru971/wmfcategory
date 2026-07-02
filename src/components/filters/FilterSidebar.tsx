@@ -3,8 +3,10 @@
 import { useEffect } from "react";
 import FilterPanel from "./FilterPanel";
 import { EMPTY_FILTERS, type ProductFilters } from "@/lib/filters";
+import type { CategoryConfig } from "@/data/types";
 
 interface FilterSidebarProps {
+  config: CategoryConfig;
   open: boolean;
   onClose: () => void;
   draftFilters: ProductFilters;
@@ -14,6 +16,7 @@ interface FilterSidebarProps {
 }
 
 export default function FilterSidebar({
+  config,
   open,
   onClose,
   draftFilters,
@@ -61,7 +64,12 @@ export default function FilterSidebar({
           </div>
         </div>
 
-        <FilterPanel filters={draftFilters} onChange={onDraftChange} previewCount={previewCount} />
+        <FilterPanel
+          config={config}
+          filters={draftFilters}
+          onChange={onDraftChange}
+          previewCount={previewCount}
+        />
 
         <div className="border-t border-mist p-5">
           <button
