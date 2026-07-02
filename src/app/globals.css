@@ -226,10 +226,11 @@
 
   .category-hero-overlay {
     background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.08) 0%,
-      rgba(0, 0, 0, 0.35) 55%,
-      rgba(0, 0, 0, 0.72) 100%
+      105deg,
+      rgba(0, 0, 0, 0.62) 0%,
+      rgba(0, 0, 0, 0.28) 42%,
+      rgba(0, 0, 0, 0.12) 68%,
+      rgba(0, 0, 0, 0.45) 100%
     );
   }
 
